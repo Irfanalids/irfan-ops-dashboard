@@ -1,16 +1,371 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI Ops Dashboard | Mohammad Irfan</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mohammad Irfan | AI Operations Specialist | Dubai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;background:#fff;color:#1A1A2E;-webkit-font-smoothing:antialiased;}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);border-bottom:1px solid #F0F2F5;padding:0 24px;}
+    .nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px;}
+    .nav-logo{font-weight:800;font-size:16px;color:#1A1A2E;letter-spacing:-0.3px;}
+    .nav-logo span{color:#D4AF37;}
+    .nav-cta{background:linear-gradient(135deg,#D4AF37,#B8960A);color:#fff;font-weight:700;font-size:13px;padding:9px 20px;border-radius:8px;text-decoration:none;transition:all 0.2s;}
+    .nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(212,175,55,0.4);}
+
+    /* HERO */
+    .hero{min-height:100vh;display:flex;align-items:center;padding:80px 24px 60px;background:linear-gradient(160deg,#FFFDF5 0%,#fff 60%);}
+    .hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:#FFFDF0;border:1px solid #D4AF37;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;color:#B8960A;margin-bottom:24px;}
+    .dot{width:8px;height:8px;border-radius:50%;background:#10B981;animation:pulse 2s infinite;}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(1.2);}}
+    h1{font-size:48px;font-weight:800;line-height:1.1;letter-spacing:-1px;margin-bottom:8px;color:#1A1A2E;}
+    h1 span{background:linear-gradient(135deg,#D4AF37,#B8960A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .hero-sub{font-size:18px;color:#64748B;font-weight:500;margin-bottom:16px;}
+    .hero-desc{font-size:15px;color:#64748B;line-height:1.7;margin-bottom:32px;max-width:480px;}
+    .hero-btns{display:flex;gap:12px;flex-wrap:wrap;}
+    .btn-primary{background:linear-gradient(135deg,#D4AF37,#B8960A);color:#fff;font-weight:700;font-size:14px;padding:13px 28px;border-radius:10px;text-decoration:none;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(212,175,55,0.4);}
+    .btn-secondary{background:#fff;color:#1A1A2E;font-weight:600;font-size:14px;padding:13px 28px;border-radius:10px;text-decoration:none;border:1.5px solid #E2E8F0;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;}
+    .btn-secondary:hover{border-color:#D4AF37;color:#B8960A;}
+    .hero-card{background:#fff;border:1.5px solid #E8ECF0;border-radius:20px;padding:28px;box-shadow:0 8px 40px rgba(0,0,0,0.08);}
+    .hero-card-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#94A3B8;margin-bottom:20px;}
+    .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    .stat{background:#F8F9FB;border-radius:12px;padding:16px;}
+    .stat-val{font-size:22px;font-weight:800;color:#D4AF37;margin-bottom:2px;}
+    .stat-label{font-size:11px;color:#94A3B8;font-weight:500;}
+    .dashboard-preview{margin-top:20px;background:linear-gradient(135deg,#FFFDF0,#FFF9E6);border:1.5px dashed #D4AF37;border-radius:12px;padding:16px;text-align:center;}
+    .dashboard-preview a{color:#B8960A;font-weight:700;font-size:13px;text-decoration:none;}
+    .dashboard-preview a:hover{text-decoration:underline;}
+
+    /* TAGS */
+    .tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;}
+    .tag{background:#F1F5F9;color:#475569;font-size:12px;font-weight:600;padding:5px 12px;border-radius:20px;}
+    .tag.gold{background:#FFFDF0;color:#B8960A;border:1px solid #D4AF3750;}
+
+    /* SECTIONS */
+    section{padding:80px 24px;}
+    .section-inner{max-width:1100px;margin:0 auto;}
+    .section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#D4AF37;margin-bottom:12px;}
+    .section-title{font-size:32px;font-weight:800;color:#1A1A2E;margin-bottom:16px;letter-spacing:-0.5px;}
+    .section-sub{font-size:16px;color:#64748B;line-height:1.7;max-width:600px;margin-bottom:48px;}
+
+    /* WHAT I DO */
+    .what-bg{background:#F8F9FB;}
+    .cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;}
+    .card{background:#fff;border:1.5px solid #E8ECF0;border-radius:16px;padding:24px;transition:all 0.2s;position:relative;overflow:hidden;}
+    .card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#D4AF37,transparent);}
+    .card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,0.08);border-color:#D4AF37;}
+    .card-icon{font-size:28px;margin-bottom:14px;}
+    .card-title{font-size:15px;font-weight:700;color:#1A1A2E;margin-bottom:8px;}
+    .card-desc{font-size:13px;color:#64748B;line-height:1.6;}
+
+    /* SKILLS */
+    .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;}
+    .skill-group{background:#fff;border:1.5px solid #E8ECF0;border-radius:16px;padding:24px;}
+    .skill-group-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#D4AF37;margin-bottom:16px;}
+    .skill-tags{display:flex;flex-wrap:wrap;gap:8px;}
+    .skill-tag{background:#F8F9FB;color:#374151;font-size:12px;font-weight:500;padding:5px 10px;border-radius:6px;}
+
+    /* EXPERIENCE */
+    .exp-list{display:flex;flex-direction:column;gap:24px;}
+    .exp-item{background:#fff;border:1.5px solid #E8ECF0;border-radius:16px;padding:24px;position:relative;overflow:hidden;}
+    .exp-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#D4AF37;}
+    .exp-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+    .exp-role{font-size:16px;font-weight:700;color:#1A1A2E;}
+    .exp-company{font-size:14px;color:#D4AF37;font-weight:600;margin-bottom:4px;}
+    .exp-date{font-size:12px;color:#94A3B8;font-weight:500;background:#F8F9FB;padding:4px 10px;border-radius:20px;}
+    .exp-bullets{list-style:none;display:flex;flex-direction:column;gap:6px;}
+    .exp-bullets li{font-size:13px;color:#475569;line-height:1.6;padding-left:16px;position:relative;}
+    .exp-bullets li::before{content:'→';position:absolute;left:0;color:#D4AF37;font-weight:700;}
+
+    /* CERTS */
+    .cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+    .cert-item{background:#fff;border:1.5px solid #E8ECF0;border-radius:12px;padding:18px;display:flex;align-items:center;gap:12px;}
+    .cert-icon{width:36px;height:36px;border-radius:8px;background:#FFFDF0;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+    .cert-name{font-size:13px;font-weight:600;color:#1A1A2E;line-height:1.4;}
+    .cert-issuer{font-size:11px;color:#94A3B8;margin-top:2px;}
+
+    /* DASHBOARD CTA */
+    .dashboard-section{background:linear-gradient(135deg,#FFFDF0,#FFF9E6);border-top:2px solid #D4AF3730;border-bottom:2px solid #D4AF3730;}
+    .dashboard-cta-box{text-align:center;max-width:700px;margin:0 auto;}
+    .dashboard-cta-box h2{font-size:36px;font-weight:800;color:#1A1A2E;margin-bottom:16px;letter-spacing:-0.5px;}
+    .dashboard-cta-box p{font-size:16px;color:#64748B;margin-bottom:32px;line-height:1.7;}
+    .dashboard-url{font-size:13px;color:#94A3B8;margin-top:16px;}
+
+    /* CONTACT */
+    .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:40px;}
+    .contact-item{background:#fff;border:1.5px solid #E8ECF0;border-radius:12px;padding:20px;display:flex;align-items:center;gap:14px;text-decoration:none;transition:all 0.2s;}
+    .contact-item:hover{border-color:#D4AF37;transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.06);}
+    .contact-icon{font-size:20px;}
+    .contact-label{font-size:11px;color:#94A3B8;font-weight:500;margin-bottom:2px;}
+    .contact-val{font-size:14px;font-weight:600;color:#1A1A2E;}
+    .available-banner{background:linear-gradient(135deg,#ECFDF5,#D1FAE5);border:1.5px solid #A7F3D0;border-radius:12px;padding:20px 28px;display:flex;align-items:center;gap:12px;}
+    .available-banner .dot{background:#10B981;}
+    .available-text{font-size:14px;font-weight:600;color:#065F46;}
+
+    /* FOOTER */
+    footer{background:#1A1A2E;color:#94A3B8;text-align:center;padding:32px 24px;font-size:13px;}
+    footer span{color:#D4AF37;}
+
+    /* RESPONSIVE */
+    @media(max-width:768px){
+      h1{font-size:32px;}
+      .hero-inner{grid-template-columns:1fr;gap:40px;}
+      .hero-card{display:none;}
+      .section-title{font-size:24px;}
+      .dashboard-cta-box h2{font-size:26px;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">Mohammad <span>Irfan</span></div>
+    <a href="https://irfan-ops-dashboard.vercel.app" target="_blank" class="nav-cta">View Live Dashboard →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge"><span class="dot"></span> Available Immediately · Dubai, UAE</div>
+      <h1>Operations &<br/><span>AI Automation</span><br/>Specialist</h1>
+      <p class="hero-sub">MBA Finance · Dubai · Immediately Available</p>
+      <p class="hero-desc">I replace manual operations with AI-powered systems. From real estate listing automation to logistics delay notifications — I build workflows that save hours every week.</p>
+      <div class="tags">
+        <span class="tag gold">Real Estate Ops</span>
+        <span class="tag gold">E-commerce Ops</span>
+        <span class="tag gold">Logistics Ops</span>
+        <span class="tag gold">Sales Coordination</span>
+        <span class="tag">Odoo ERP</span>
+        <span class="tag">AI Automation</span>
+        <span class="tag">Excel Dashboards</span>
+      </div>
+      <div class="hero-btns">
+        <a href="https://irfan-ops-dashboard.vercel.app" target="_blank" class="btn-primary">✦ View Live AI Dashboard</a>
+        <a href="mailto:irfan.ali6213ds@gmail.com" class="btn-secondary">📧 Contact Me</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-title">Portfolio at a Glance</div>
+      <div class="stat-grid">
+        <div class="stat"><div class="stat-val">4</div><div class="stat-label">Industry Verticals</div></div>
+        <div class="stat"><div class="stat-val">87%</div><div class="stat-label">AI Automation Rate</div></div>
+        <div class="stat"><div class="stat-val">31h</div><div class="stat-label">Weekly Hours Saved</div></div>
+        <div class="stat"><div class="stat-val">AED 40M+</div><div class="stat-label">Pipeline Managed</div></div>
+      </div>
+      <div class="dashboard-preview">
+        <p style="font-size:12px;color:#94A3B8;margin-bottom:8px;">Live interactive dashboard →</p>
+        <a href="https://irfan-ops-dashboard.vercel.app" target="_blank">irfan-ops-dashboard.vercel.app</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT I DO -->
+<section class="what-bg">
+  <div class="section-inner">
+    <div class="section-label">What I Do</div>
+    <div class="section-title">AI-Powered Operations<br/>Across 4 Industries</div>
+    <div class="section-sub">I use AI tools to automate what ops teams do manually — saving time, reducing errors, and making data visible in real time.</div>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">🏢</div>
+        <div class="card-title">Real Estate Operations</div>
+        <div class="card-desc">Property listing management, agent performance tracking, CRM coordination, and AI-generated listing descriptions — reducing manual effort by 94%.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🛒</div>
+        <div class="card-title">E-commerce Operations</div>
+        <div class="card-desc">Order management, fulfilment tracking, product content automation, and revenue reporting — across UAE delivery zones.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🚚</div>
+        <div class="card-title">Logistics Operations</div>
+        <div class="card-desc">Shipment tracking, delay management, automated customer notifications, and SLA monitoring across Dubai and the wider UAE.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">💼</div>
+        <div class="card-title">Sales Coordination</div>
+        <div class="card-desc">CRM pipeline management, lead tracking, AI-drafted follow-up emails, and revenue forecasting for B2B sales teams.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section>
+  <div class="section-inner">
+    <div class="section-label">Experience</div>
+    <div class="section-title">Where I've Delivered</div>
+    <div class="section-sub">Hands-on Dubai experience with real results.</div>
+    <div class="exp-list">
+      <div class="exp-item">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">Operations & Admin Associate</div>
+            <div class="exp-company">Zahya Real Estate, Dubai</div>
+          </div>
+          <div class="exp-date">2026</div>
+        </div>
+        <ul class="exp-bullets">
+          <li>Managed property listing operations across digital platforms using AI tools to automate content updates and reduce manual effort</li>
+          <li>Built agent performance tracking reports in Excel covering deal volumes, commissions, and monthly targets</li>
+          <li>Coordinated lead tracking and client follow-ups using CRM, ensuring zero lead drop-off</li>
+          <li>Automated monthly income, expense, and deal volume reporting — replacing manual data entry with structured Excel templates</li>
+          <li>Used Odoo ERP for documentation, record management, and daily workflow coordination</li>
+          <li>Created social media content using ChatGPT and Canva for property promotion</li>
+        </ul>
+      </div>
+      <div class="exp-item">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">Data Science Intern</div>
+            <div class="exp-company">IIT Bombay</div>
+          </div>
+          <div class="exp-date">2025</div>
+        </div>
+        <ul class="exp-bullets">
+          <li>Built a sales forecasting model using historical data and predictive algorithms to project future revenue trends</li>
+          <li>Cleaned and structured large datasets in Excel to ensure data accuracy for reliable forecasting outputs</li>
+          <li>Developed dashboards and visualisations to present sales predictions clearly to management</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="what-bg">
+  <div class="section-inner">
+    <div class="section-label">Skills</div>
+    <div class="section-title">Tools & Technologies</div>
+    <div class="section-sub">The exact tools Dubai ops teams use every day.</div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-title">Operations & Coordination</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Odoo ERP</span><span class="skill-tag">CRM</span><span class="skill-tag">Excel</span>
+          <span class="skill-tag">Microsoft Office</span><span class="skill-tag">Google Workspace</span>
+          <span class="skill-tag">Outlook</span><span class="skill-tag">SOPs</span>
+          <span class="skill-tag">Documentation</span><span class="skill-tag">Order Processing</span>
+          <span class="skill-tag">Inventory Tracking</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Reporting & Finance</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Excel Dashboards</span><span class="skill-tag">Power BI</span>
+          <span class="skill-tag">Financial Reporting</span><span class="skill-tag">Expense Tracking</span>
+          <span class="skill-tag">Invoicing</span><span class="skill-tag">Reconciliation</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">AI & Automation</div>
+        <div class="skill-tags">
+          <span class="skill-tag">ChatGPT</span><span class="skill-tag">Claude</span>
+          <span class="skill-tag">Microsoft Copilot</span><span class="skill-tag">Google Gemini</span>
+          <span class="skill-tag">AI Workflow Automation</span><span class="skill-tag">Canva</span>
+          <span class="skill-tag">Prompt Engineering</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Education & Languages</div>
+        <div class="skill-tags">
+          <span class="skill-tag">MBA – Finance</span><span class="skill-tag">B.Com – Computers</span>
+          <span class="skill-tag">English</span><span class="skill-tag">Hindi</span>
+          <span class="skill-tag">Urdu</span><span class="skill-tag">Telugu</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section>
+  <div class="section-inner">
+    <div class="section-label">Certifications</div>
+    <div class="section-title">Credentials</div>
+    <div class="section-sub" style="margin-bottom:32px;">Verified qualifications in AI and data.</div>
+    <div class="cert-grid">
+      <div class="cert-item">
+        <div class="cert-icon">🇦🇪</div>
+        <div><div class="cert-name">Dubai AI & Prompt Engineering Certificate</div><div class="cert-issuer">2025</div></div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon">🔵</div>
+        <div><div class="cert-name">AI Essentials</div><div class="cert-issuer">Google · 2025</div></div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon">🎓</div>
+        <div><div class="cert-name">Data Science Certificate</div><div class="cert-issuer">IIT Bombay · 2025</div></div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon">🪟</div>
+        <div><div class="cert-name">Data Science Certificate</div><div class="cert-issuer">Microsoft · Coursera</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD CTA -->
+<section class="dashboard-section">
+  <div class="section-inner">
+    <div class="dashboard-cta-box">
+      <div class="section-label" style="text-align:center;">Live Portfolio</div>
+      <h2>See the Dashboard<br/>in Action</h2>
+      <p>A fully interactive AI operations dashboard covering Real Estate, E-commerce, Logistics, and Sales — built with real Dubai data. Every number is editable. Every AI button works instantly.</p>
+      <a href="https://irfan-ops-dashboard.vercel.app" target="_blank" class="btn-primary" style="display:inline-flex;">✦ Open Live Dashboard</a>
+      <div class="dashboard-url">irfan-ops-dashboard.vercel.app</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section>
+  <div class="section-inner">
+    <div class="section-label">Contact</div>
+    <div class="section-title">Let's Talk</div>
+    <div class="section-sub">Available for immediate joining. Based in Dubai on visit visa.</div>
+    <div class="contact-grid">
+      <a href="tel:+971505304651" class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div><div class="contact-label">Phone / WhatsApp</div><div class="contact-val">+971 50 530 4651</div></div>
+      </a>
+      <a href="mailto:irfan.ali6213ds@gmail.com" class="contact-item">
+        <div class="contact-icon">📧</div>
+        <div><div class="contact-label">Email</div><div class="contact-val">irfan.ali6213ds@gmail.com</div></div>
+      </a>
+      <a href="https://linkedin.com/in/mohammad-irfan-ds" target="_blank" class="contact-item">
+        <div class="contact-icon">💼</div>
+        <div><div class="contact-label">LinkedIn</div><div class="contact-val">mohammad-irfan-ds</div></div>
+      </a>
+      <a href="https://irfan-ops-dashboard.vercel.app" target="_blank" class="contact-item">
+        <div class="contact-icon">✦</div>
+        <div><div class="contact-label">Live Portfolio</div><div class="contact-val">irfan-ops-dashboard.vercel.app</div></div>
+      </a>
+    </div>
+    <div class="available-banner">
+      <span class="dot"></span>
+      <div class="available-text">Immediately available · UAE Visit Visa · Open to all Dubai ops, admin, and sales coordination roles</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2024 <span>Mohammad Irfan</span> · AI Operations Specialist · Dubai, UAE</p>
+  <p style="margin-top:8px;">MBA Finance · Odoo ERP · AI Automation · Excel · CRM</p>
+</footer>
+
+</body>
 </html>
