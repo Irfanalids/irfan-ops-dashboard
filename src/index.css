@@ -130,3 +130,13 @@ body {
   .kpi-card { padding: 14px; }
   .data-table th, .data-table td { padding: 8px 10px; font-size: 11px; }
 }
+
+.edit-hint {
+  background: #FFFDF0;
+  border: 1px dashed #D4AF37;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 12px;
+  color: #B8960A;
+  font-weight: 500;
+}
